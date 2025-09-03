@@ -44,12 +44,12 @@ export function calculate(score: integer, internalChartLevel: number) {
 
 /**
  * Calculates WACCAs rate for a score.
- * This is accurate as of WACCA 4.02.00
+ * This is accurate for WACCA Plus as of the August 2025 update.
  *
  * @param score - The score to calculate the rate for.
  * @param internalChartLevel - The internal decimal level of the chart the score was achieved on.
  */
-export function calculateV4(score: integer, internalChartLevel: number) {
+export function calculatePlus(score: integer, internalChartLevel: number) {
 	ThrowIf(score > 1_000_000, "Score cannot be greater than 1million.", { score });
 	ThrowIf.negative(score, "Score cannot be negative.", { score });
 	ThrowIf.negative(internalChartLevel, "Chart level cannot be negative.", {
@@ -153,12 +153,12 @@ export function inverse(rate: number, internalChartLevel: number) {
 /**
  * Given a WACCA rate and a chart level, return the minimum score necessary to get
  * that rate.
- * This is accurate as of WACCA 4.02.00
+ * This is accurate for WACCA Plus as of the August 2025 update.
  *
  * @param rate - The rate to inverse
  * @param internalChartLevel - The internal decimal level of the chart the rate was on.
  */
-export function inverseV4(rate: number, internalChartLevel: number) {
+export function inversePlus(rate: number, internalChartLevel: number) {
 	ThrowIf.negative(internalChartLevel, "Chart level cannot be negative.", {
 		level: internalChartLevel,
 	});
