@@ -23,7 +23,11 @@ function expectedRating(percent: number) {
 	if (percent >= 99) return LEVEL + 2 + (percent - 99) / 0.5;
 	if (percent >= 98) return LEVEL + 1 + (percent - 98) / 1;
 	if (percent >= 97) return LEVEL + (percent - 97) / 1;
-	if (percent >= 50) return LEVEL * ((percent - 50) / 47);
+	if (percent >= 50) {
+		const drop = 97 - percent;
+		const ratingLoss = drop * (2 / 3);
+		return Math.max(0, LEVEL - ratingLoss);
+	}
 	return 0;
 }
 
