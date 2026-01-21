@@ -33,6 +33,8 @@ Calculates rating on a given chart.
  *
  * @param score - The score to calculate the rate for.
  * @param internalChartLevel - The internal decimal level of the chart the score was achieved on.
+ * @param lamp - The lamp for this score. Since maimai DX CiRCLE, there is a 1 rating bonus
+ * for ALL PERFECT/ALL PERFECT+ scores.
  */
-function calculate(score: number, internalChartLevel: number): number
+function calculate(score: number, internalChartLevel: number, lamp?: MaimaiDXLamps): number
 ```
