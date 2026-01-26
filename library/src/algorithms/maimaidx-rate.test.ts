@@ -28,6 +28,7 @@ t.test("maimai DX Rate Tests", (t) => {
 		MakeTestCase(99.4936, 12.8, "CLEAR", 264),
 
 		// General boundary checks
+		MakeTestCase(101, 13, "ALL PERFECT+", 293),
 		MakeTestCase(100.5, 13, "ALL PERFECT", 293),
 		MakeTestCase(100.5, 13, "CLEAR", 292),
 		MakeTestCase(100.4999, 14, "CLEAR", 312),
@@ -96,6 +97,16 @@ t.test("maimai DX Rate Validation Tests", (t) => {
 		t,
 		() => calculate(100.4, 10, "ALL PERFECT"),
 		"Should throw if lamp is ALL PERFECT but score is below 100.5%."
+	);
+	ThrowsToSnapshot(
+		t,
+		() => calculate(79, 10, "CLEAR"),
+		"Should throw if lamp is CLEAR but score is below 80%."
+	);
+	ThrowsToSnapshot(
+		t,
+		() => calculate(81, 10, "FAILED"),
+		"Should throw if lamp is FAILED but score is above 80%."
 	);
 
 	t.end();

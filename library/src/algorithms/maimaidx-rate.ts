@@ -55,9 +55,21 @@ export function calculate(score: number, internalChartLevel: number, lamp?: Maim
 		{ score, lamp }
 	);
 	ThrowIf(
-		lamp !== undefined && lamp !== "ALL PERFECT+" && score === 101,
+		score === 101 && lamp !== undefined && lamp !== "ALL PERFECT+",
 		"A score of 101% should be an ALL PERFECT+.",
 		// @ts-expect-error Lamp is defined if the exception is thrown.
+		{ score, lamp }
+	);
+	ThrowIf(
+		score >= 80 && lamp === "FAILED",
+		"A score of >=80% should not be a FAILED.",
+		// @ts-expect-error Lamp is "FAILED" if the exception is thrown.
+		{ score, lamp }
+	);
+	ThrowIf(
+		score < 80 && lamp === "CLEAR", // check specifically CLEARs so that sub-80% FCs are still permitted
+		"A score of <80% should not be a CLEAR.",
+		// @ts-expect-error Lamp is "CLEAR" if the exception is thrown.
 		{ score, lamp }
 	);
 	ThrowIf(

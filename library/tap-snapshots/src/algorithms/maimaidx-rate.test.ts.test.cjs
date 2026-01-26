@@ -13,6 +13,14 @@ exports[`src/algorithms/maimaidx-rate.test.ts TAP maimai DX Rate Validation Test
 Invalid input, Cannot have an ALL PERFECT+ without 101%. score=100.5, lamp="ALL PERFECT+".
 `
 
+exports[`src/algorithms/maimaidx-rate.test.ts TAP maimai DX Rate Validation Tests > Should throw if lamp is CLEAR but score is below 80%. 1`] = `
+Invalid input, A score of <80% should not be a CLEAR. score=79, lamp="CLEAR".
+`
+
+exports[`src/algorithms/maimaidx-rate.test.ts TAP maimai DX Rate Validation Tests > Should throw if lamp is FAILED but score is above 80%. 1`] = `
+Invalid input, A score of >=80% should not be a FAILED. score=81, lamp="FAILED".
+`
+
 exports[`src/algorithms/maimaidx-rate.test.ts TAP maimai DX Rate Validation Tests > Should throw if level is negative. 1`] = `
 Invalid input, Internal chart level cannot be negative. level=-1.
 `
