@@ -1,5 +1,13 @@
 import { ThrowIf } from "../util/throw-if";
 
+export type MaimaiDXLamps =
+	| "FAILED"
+	| "CLEAR"
+	| "FULL COMBO"
+	| "FULL COMBO+"
+	| "ALL PERFECT"
+	| "ALL PERFECT+";
+
 const RATING_COEFFICIENTS = new Map([
 	[100_5000, 224],
 	[100_4999, 222],
@@ -31,21 +39,54 @@ const RATING_COEFFICIENTS = new Map([
  *
  * @param score - The score to calculate the rate for.
  * @param internalChartLevel - The internal decimal level of the chart the score was achieved on.
+ * @param lamp - The lamp for this score. Since maimai DX CiRCLE, there is a 1 rating bonus
+ * for ALL PERFECT/ALL PERFECT+ scores.
  */
-export function calculate(score: number, internalChartLevel: number) {
+export function calculate(score: number, internalChartLevel: number, lamp?: MaimaiDXLamps) {
 	ThrowIf(score > 101, "Score cannot be greater than 101%.", { score });
 	ThrowIf.negative(score, "Score cannot be negative.", { score });
 	ThrowIf.negative(internalChartLevel, "Internal chart level cannot be negative.", {
 		level: internalChartLevel,
 	});
+	ThrowIf(
+		lamp === "ALL PERFECT+" && score !== 101,
+		"Cannot have an ALL PERFECT+ without 101%.",
+		// @ts-expect-error Lamp is "ALL PERFECT+" if the exception is thrown.
+		{ score, lamp }
+	);
+	ThrowIf(
+		score === 101 && lamp !== undefined && lamp !== "ALL PERFECT+",
+		"A score of 101% should be an ALL PERFECT+.",
+		// @ts-expect-error Lamp is defined if the exception is thrown.
+		{ score, lamp }
+	);
+	ThrowIf(
+		lamp === "ALL PERFECT" && score < 100.5,
+		"Cannot have an ALL PERFECT without at least 100.5%.",
+		// @ts-expect-error Lamp is "ALL PERFECT" if the exception is thrown.
+		{ score, lamp }
+	);
+	ThrowIf(
+		score >= 80 && lamp === "FAILED",
+		"A score of >=80% should not be a FAILED.",
+		// @ts-expect-error Lamp is "FAILED" if the exception is thrown.
+		{ score, lamp }
+	);
+	ThrowIf(
+		score < 80 && lamp === "CLEAR", // check specifically CLEARs so that sub-80% FCs are still permitted
+		"A score of <80% should not be a CLEAR.",
+		// @ts-expect-error Lamp is "CLEAR" if the exception is thrown.
+		{ score, lamp }
+	);
 
 	// Scores above 100.5% are capped at 100.5% by the algorithm.
 	const scoreInt = Math.min(Math.round(score * 10000), 100_5000);
 	const iclInt = Math.round(internalChartLevel * 10);
+	const bonus = lamp === "ALL PERFECT" || lamp === "ALL PERFECT+" ? 1 : 0;
 
 	for (const [scoreBoundary, coefficient] of RATING_COEFFICIENTS) {
 		if (scoreInt >= scoreBoundary) {
-			return Math.floor((scoreInt * coefficient * iclInt) / 100_000_000);
+			return Math.floor((scoreInt * coefficient * iclInt) / 100_000_000) + bonus;
 		}
 	}
 
