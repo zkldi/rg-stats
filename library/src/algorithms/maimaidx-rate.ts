@@ -67,8 +67,6 @@ export function calculate(score: number, internalChartLevel: number, lamp?: Maim
 		{ score, lamp }
 	);
 
-	lamp ??= score >= 80 ? "CLEAR" : "FAILED";
-
 	// Scores above 100.5% are capped at 100.5% by the algorithm.
 	const scoreInt = Math.min(Math.round(score * 10000), 100_5000);
 	const iclInt = Math.round(internalChartLevel * 10);
