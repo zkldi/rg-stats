@@ -61,6 +61,12 @@ export function calculate(score: number, internalChartLevel: number, lamp?: Maim
 		{ score, lamp }
 	);
 	ThrowIf(
+		lamp === "ALL PERFECT" && score < 100.5,
+		"Cannot have an ALL PERFECT without at least 100.5%.",
+		// @ts-expect-error Lamp is "ALL PERFECT" if the exception is thrown.
+		{ score, lamp }
+	);
+	ThrowIf(
 		score >= 80 && lamp === "FAILED",
 		"A score of >=80% should not be a FAILED.",
 		// @ts-expect-error Lamp is "FAILED" if the exception is thrown.
@@ -70,12 +76,6 @@ export function calculate(score: number, internalChartLevel: number, lamp?: Maim
 		score < 80 && lamp === "CLEAR", // check specifically CLEARs so that sub-80% FCs are still permitted
 		"A score of <80% should not be a CLEAR.",
 		// @ts-expect-error Lamp is "CLEAR" if the exception is thrown.
-		{ score, lamp }
-	);
-	ThrowIf(
-		lamp === "ALL PERFECT" && score < 100.5,
-		"Cannot have an ALL PERFECT without at least 100.5%.",
-		// @ts-expect-error Lamp is "ALL PERFECT" if the exception is thrown.
 		{ score, lamp }
 	);
 
