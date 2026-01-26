@@ -54,6 +54,7 @@ t.test("maimai DX Rate Tests", (t) => {
 		MakeTestCase(0, 12.6, "FAILED", 0),
 
 		// Ensuring that not providing a lamp still works
+		MakeTestCase(101, 13, undefined, 292),
 		MakeTestCase(100.5, 13, undefined, 292),
 		MakeTestCase(75, 12.4, undefined, 111),
 	];

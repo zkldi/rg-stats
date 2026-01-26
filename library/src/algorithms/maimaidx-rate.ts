@@ -43,27 +43,31 @@ const RATING_COEFFICIENTS = new Map([
  * for ALL PERFECT/ALL PERFECT+ scores.
  */
 export function calculate(score: number, internalChartLevel: number, lamp?: MaimaiDXLamps) {
-	lamp ??= score >= 80 ? "CLEAR" : "FAILED";
-
 	ThrowIf(score > 101, "Score cannot be greater than 101%.", { score });
 	ThrowIf.negative(score, "Score cannot be negative.", { score });
 	ThrowIf.negative(internalChartLevel, "Internal chart level cannot be negative.", {
 		level: internalChartLevel,
 	});
-	ThrowIf(lamp === "ALL PERFECT+" && score !== 101, "Cannot have an ALL PERFECT+ without 101%.", {
-		score,
-		lamp,
-	});
 	ThrowIf(
-		lamp !== "ALL PERFECT+" && score === 101,
+		lamp === "ALL PERFECT+" && score !== 101,
+		"Cannot have an ALL PERFECT+ without 101%.",
+		// @ts-expect-error Lamp is "ALL PERFECT+" if the exception is thrown.
+		{ score, lamp }
+	);
+	ThrowIf(
+		lamp !== undefined && lamp !== "ALL PERFECT+" && score === 101,
 		"A score of 101% should be an ALL PERFECT+.",
+		// @ts-expect-error Lamp is defined if the exception is thrown.
 		{ score, lamp }
 	);
 	ThrowIf(
 		lamp === "ALL PERFECT" && score < 100.5,
 		"Cannot have an ALL PERFECT without at least 100.5%.",
+		// @ts-expect-error Lamp is "ALL PERFECT" if the exception is thrown.
 		{ score, lamp }
 	);
+
+	lamp ??= score >= 80 ? "CLEAR" : "FAILED";
 
 	// Scores above 100.5% are capped at 100.5% by the algorithm.
 	const scoreInt = Math.min(Math.round(score * 10000), 100_5000);
