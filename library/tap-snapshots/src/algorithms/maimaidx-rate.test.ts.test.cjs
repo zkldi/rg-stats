@@ -5,8 +5,8 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`src/algorithms/maimaidx-rate.test.ts TAP maimai DX Rate Validation Tests > Should throw if lamp is ALL PERFECT but score is below 100.5%. 1`] = `
-Invalid input, Cannot have an ALL PERFECT without at least 100.5%. score=100.4, lamp="ALL PERFECT".
+exports[`src/algorithms/maimaidx-rate.test.ts TAP maimai DX Rate Validation Tests > Should throw if lamp is ALL PERFECT but score is below 100%. 1`] = `
+Invalid input, Cannot have an ALL PERFECT without at least 100%. score=99.9, lamp="ALL PERFECT".
 `
 
 exports[`src/algorithms/maimaidx-rate.test.ts TAP maimai DX Rate Validation Tests > Should throw if lamp is ALL PERFECT+ but score is not 101%. 1`] = `

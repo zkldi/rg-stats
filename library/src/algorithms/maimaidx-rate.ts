@@ -61,8 +61,8 @@ export function calculate(score: number, internalChartLevel: number, lamp?: Maim
 		{ score, lamp }
 	);
 	ThrowIf(
-		lamp === "ALL PERFECT" && score < 100.5,
-		"Cannot have an ALL PERFECT without at least 100.5%.",
+		lamp === "ALL PERFECT" && score < 100,
+		"Cannot have an ALL PERFECT without at least 100%.",
 		// @ts-expect-error Lamp is "ALL PERFECT" if the exception is thrown.
 		{ score, lamp }
 	);
