@@ -32,6 +32,7 @@ t.test("maimai DX Rate Tests", (t) => {
 		MakeTestCase(100.5, 13, "ALL PERFECT", 293),
 		MakeTestCase(100.5, 13, "CLEAR", 292),
 		MakeTestCase(100.4999, 14, "CLEAR", 312),
+		MakeTestCase(100, 13, "ALL PERFECT", 281),
 		MakeTestCase(100, 13, "CLEAR", 280),
 		MakeTestCase(99.9999, 13.7, "CLEAR", 293),
 		MakeTestCase(99.5, 13.7, "CLEAR", 287),
@@ -95,8 +96,8 @@ t.test("maimai DX Rate Validation Tests", (t) => {
 	);
 	ThrowsToSnapshot(
 		t,
-		() => calculate(100.4, 10, "ALL PERFECT"),
-		"Should throw if lamp is ALL PERFECT but score is below 100.5%."
+		() => calculate(99.9, 10, "ALL PERFECT"),
+		"Should throw if lamp is ALL PERFECT but score is below 100%."
 	);
 	ThrowsToSnapshot(
 		t,
